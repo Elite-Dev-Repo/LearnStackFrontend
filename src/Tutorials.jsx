@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import {
   Search01Icon,
-  FilterIcon,
+  PreferenceHorizontalIcon,
   CourseIcon,
   ThumbsUpIcon,
   BookmarkIcon,
@@ -10,20 +10,25 @@ import {
   Cancel01Icon,
   YoutubeIcon,
   Tag01Icon,
+  FilterIcon,
 } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import Footer from "./components/Footer";
 import Nav from "./components/Nav";
 import api from "./api";
 import { toast, Toaster } from "sonner";
+import { Link } from "react-router-dom";
 
 const Tutorials = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("All");
 
-  // Modal & Form States
+  // Modal States
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
+
   const [newTutorial, setNewTutorial] = useState({
     youtube_url: "",
     category: "Frontend",
@@ -36,12 +41,41 @@ const Tutorials = () => {
     "Fullstack",
     "Design",
     "DevOps",
+    "UI/UX",
     "AI",
+    "Freelancing",
+    "Other",
   ];
 
-  const filteredData = data.filter((t) =>
-    t.title.toLowerCase().includes(searchQuery.toLowerCase()),
-  );
+  // Combined Filtering Logic
+  const filteredData = data.filter((t) => {
+    const matchesSearch = t.title
+      .toLowerCase()
+      .includes(searchQuery.toLowerCase());
+    const matchesCategory =
+      selectedCategory === "All" || t.category === selectedCategory;
+    return matchesSearch && matchesCategory;
+  });
+
+  const likeVideo = async (id) => {
+    try {
+      await api.post(`/like/${id}/`);
+      toast.success("Successfully liked!");
+      fetchData();
+    } catch (error) {
+      toast.error("Failed to like video.");
+    }
+  };
+
+  const bookmarkVideo = async (id) => {
+    try {
+      await api.post(`/bookmarks/${id}/`);
+      toast.success("Successfully bookmarked!");
+      fetchData();
+    } catch (error) {
+      toast.error("Failed to bookmark video.");
+    }
+  };
 
   const fetchData = async () => {
     try {
@@ -61,7 +95,7 @@ const Tutorials = () => {
       toast.success("Successfully added!");
       setIsModalOpen(false);
       setNewTutorial({ youtube_url: "", category: "Frontend", keyword: "" });
-      fetchData(); // Refresh list
+      fetchData();
     } catch (error) {
       toast.error("Failed to add tutorial. Check the URL.");
     }
@@ -97,14 +131,21 @@ const Tutorials = () => {
                   placeholder="SEARCH FOR A STACK..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full bg-white border-4 border-foreground p-5 pl-14 text-xl font-foreground uppercase placeholder:text-zinc-400focus:shadow-none focus:translate-x-1  outline-none"
+                  className="w-full bg-white border-4 border-foreground p-5 pl-14 text-xl font-foreground uppercase placeholder:text-zinc-400 focus:shadow-none focus:translate-x-1 outline-none"
                 />
               </div>
             </div>
             <div className=" flex items-center justify-between md:justify-end gap-5 ">
-              <button className="bg-foreground text-white p-5 border-4 border-foreground  hover:bg-primary hover:text-foreground transition-colors flex items-center gap-3 font-foreground uppercase">
-                <HugeiconsIcon icon={FilterIcon} size={24} strokeWidth={3} />
-                Filters
+              <button
+                onClick={() => setIsFilterModalOpen(true)}
+                className="bg-foreground text-white p-5 border-4 border-foreground hover:bg-primary hover:text-foreground transition-colors flex items-center gap-3 font-foreground uppercase shadow-[4px_4px_0px_#000000] active:shadow-none active:translate-x-1 active:translate-y-1"
+              >
+                <HugeiconsIcon
+                  icon={PreferenceHorizontalIcon}
+                  size={24}
+                  strokeWidth={3}
+                />
+                Filters {selectedCategory !== "All" && `(${selectedCategory})`}
               </button>
 
               <button
@@ -142,9 +183,11 @@ const Tutorials = () => {
 
                 {/* Content Area */}
                 <div className="p-6 flex-1 flex flex-col">
-                  <h3 className="text-2xl font-foreground uppercase leading-none mb-3 group-hover:underline decoration-4">
-                    {tutorial.title}
-                  </h3>
+                  <Link to={tutorial.youtube_url} target="_blank">
+                    <h3 className="text-2xl font-foreground uppercase leading-none mb-3 group-hover:underline decoration-4">
+                      {tutorial.title}
+                    </h3>
+                  </Link>
                   <p className="text-foreground mb-3 text-md font-medium">
                     {tutorial.channel_name}
                   </p>
@@ -154,7 +197,10 @@ const Tutorials = () => {
                       {tutorial.keyword}
                     </button>
                     <div className="flex gap-4">
-                      <div className="flex items-center gap-1 font-foreground text-sm">
+                      <div
+                        onClick={() => likeVideo(tutorial.id)}
+                        className="flex items-center gap-1 font-foreground text-sm cursor-pointer hover:scale-110 transition-transform"
+                      >
                         <HugeiconsIcon
                           icon={ThumbsUpIcon}
                           size={18}
@@ -162,7 +208,10 @@ const Tutorials = () => {
                         />
                         {tutorial.likes_count}
                       </div>
-                      <div className="flex items-center gap-1 font-foreground text-sm">
+                      <div
+                        onClick={() => bookmarkVideo(tutorial.id)}
+                        className="flex items-center gap-1 font-foreground text-sm cursor-pointer hover:scale-110 transition-transform"
+                      >
                         <HugeiconsIcon
                           icon={BookmarkIcon}
                           size={18}
@@ -189,16 +238,67 @@ const Tutorials = () => {
         </div>
       </section>
 
-      {/* Floating Add Button */}
+      {/* Filter Modal */}
+      {isFilterModalOpen && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 backdrop-blur-md bg-foreground/20">
+          <div className="bg-white border-[6px] border-foreground w-full max-w-md shadow-[15px_15px_0px_0px_#000000] relative">
+            <div className="bg-black text-white p-6 flex justify-between items-center">
+              <h2 className="text-2xl font-black uppercase flex items-center gap-3">
+                <HugeiconsIcon icon={FilterIcon} size={24} strokeWidth={3} />
+                Refine Stack
+              </h2>
+              <button
+                onClick={() => setIsFilterModalOpen(false)}
+                className="bg-white text-black border-2 border-black p-1 hover:bg-primary transition-colors"
+              >
+                <HugeiconsIcon icon={Cancel01Icon} size={20} strokeWidth={3} />
+              </button>
+            </div>
+
+            <div className="p-8 space-y-8">
+              <div className="space-y-3">
+                <label className="text-xs font-black uppercase tracking-widest text-zinc-500">
+                  Select Category
+                </label>
+                <select
+                  value={selectedCategory}
+                  onChange={(e) => {
+                    setSelectedCategory(e.target.value);
+                    setIsFilterModalOpen(false);
+                  }}
+                  className="w-full bg-white border-4 border-foreground p-5 font-black uppercase text-lg outline-none cursor-pointer hover:bg-zinc-50 transition-colors appearance-none"
+                >
+                  <option value="All">All Categories</option>
+                  {categories.map((cat) => (
+                    <option key={cat} value={cat}>
+                      {cat}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <button
+                onClick={() => {
+                  setSelectedCategory("All");
+                  setSearchQuery("");
+                  setIsFilterModalOpen(false);
+                }}
+                className="w-full border-4 border-dashed border-foreground p-4 font-black uppercase hover:bg-red-100 transition-colors"
+              >
+                Reset All Filters
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Add Tutorial Modal */}
       {isModalOpen && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 backdrop-blur-md bg-foreground/20">
           <div className="bg-white border-[6px] border-foreground w-full max-w-xl shadow-[20px_20px_0px_0px_rgba(0,0,0,1)] relative">
-            {/* Modal Header */}
             <div className="bg-primary border-b-4 border-foreground p-6 flex justify-between items-center">
               <h2 className="text-3xl font-black uppercase italic tracking-tighter">
-                Submit New Code
+                Submit New Tutorial
               </h2>
               <button
                 onClick={() => setIsModalOpen(false)}
@@ -208,7 +308,6 @@ const Tutorials = () => {
               </button>
             </div>
 
-            {/* Modal Form */}
             <form onSubmit={handleAddTutorial} className="p-8 space-y-6">
               <div className="space-y-2">
                 <label className="text-xs font-black uppercase flex items-center gap-2">
@@ -276,7 +375,7 @@ const Tutorials = () => {
                 type="submit"
                 className="w-full bg-foreground text-white py-5 text-2xl font-black uppercase shadow-[8px_8px_0px_0px_rgba(0,255,149,0.5)] hover:shadow-none hover:translate-x-1 hover:translate-y-1 transition-all mt-4"
               >
-                Push to Library ★
+                Add to Library ★
               </button>
             </form>
           </div>

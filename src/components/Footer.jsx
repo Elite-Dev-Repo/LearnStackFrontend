@@ -9,6 +9,7 @@ import {
   ZapIcon,
 } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
+import { href } from "react-router-dom";
 
 const Footer = () => {
   const scrollToTop = () => {
@@ -23,10 +24,11 @@ const Footer = () => {
           {[1, 2, 3, 4].map((i) => (
             <span
               key={i}
-              className="text-6xl font-foreground uppercase tracking-tighter mx-4"
+              className="text-5xl font-foreground uppercase tracking-tighter mx-4"
             >
-              Build the Future <span className="text-pink-500">★</span> Stay
-              Brutal <span className="text-cyan-500">★</span>
+              Discover Tutorials <span className="text-pink-500">★</span>
+              Learn Faster <span className="text-cyan-500">★</span> Share
+              Knowledge <span className="text-secondary">★</span>
             </span>
           ))}
         </div>
@@ -44,29 +46,43 @@ const Footer = () => {
               className="text-primary"
             />
             <h2 className="text-3xl font-foreground uppercase tracking-tighter">
-              THE HUB.
+              LearnStack
             </h2>
           </div>
           <p className="font-bold text-gray-400 leading-tight mb-6">
-            A raw space for full-stack developers to learn, share, and break
-            things. Built with precision and chaos.
+            LearnStack is a community platform for discovering and sharing the
+            most helpful YouTube tutorials. Stop searching endlessly and start
+            learning faster.
           </p>
           <div className="flex gap-3">
             {[
-              { icon: GithubIcon, color: "bg-background" },
-              { icon: TwitterIcon, color: "bg-background" },
-              { icon: Linkedin02Icon, color: "bg-background" },
+              {
+                icon: GithubIcon,
+                color: "bg-background",
+                href: "https://github.com/Elite-Dev-Repo",
+              },
+              {
+                icon: TwitterIcon,
+                color: "bg-background",
+                href: "https://x.com/elite_developer",
+              },
+              {
+                icon: Linkedin02Icon,
+                color: "bg-background",
+                href: "https://www.linkedin.com/in/oyenekan-emmanuel-63a43725b/",
+              },
             ].map((social, i) => (
               <a
                 key={i}
-                href="#"
+                href={social.href}
+                target="_blank"
                 className={`${social.color} p-2 border-2 text-foreground  hover:shadow-none hover:translate-x-1 hover:translate-y-1 transition-all`}
               >
                 <HugeiconsIcon
                   icon={social.icon}
                   size={20}
                   color="foreground"
-                  strokeWidth={2.5}
+                  strokeWidth={1.5}
                 />
               </a>
             ))}
@@ -76,18 +92,19 @@ const Footer = () => {
         {/* Column 2: The Stack */}
         <div>
           <h3 className="text-xl font-foreground uppercase mb-6 underline decoration-pink-500 decoration-4 underline-offset-4">
-            The Stack
+            Explore
           </h3>
+
           <ul className="flex flex-col gap-3 font-bold uppercase text-sm">
             <li className="hover:text-cyan-400 cursor-pointer">
-              Django / Python
+              Trending Tutorials
             </li>
             <li className="hover:text-primary cursor-pointer">
-              JavaScript / React
+              Latest Tutorials
             </li>
-            <li className="hover:text-blue-400 cursor-pointer">TailwindCSS</li>
+            <li className="hover:text-blue-400 cursor-pointer">Top Rated</li>
             <li className="hover:text-emerald-400 cursor-pointer">
-              Supabase DB
+              Categories
             </li>
           </ul>
         </div>
@@ -95,27 +112,28 @@ const Footer = () => {
         {/* Column 3: Resources */}
         <div>
           <h3 className="text-xl font-foreground uppercase mb-6 underline decoration-primary decoration-4 underline-offset-4">
-            Resources
+            Platform
           </h3>
+
           <ul className="flex flex-col gap-3 font-bold uppercase text-sm">
-            <li className="hover:text-secondary cursor-pointer">
-              Documentation
-            </li>
             <li className="hover:text-secondary cursor-pointer">
               Submit Tutorial
             </li>
-            <li className="hover:text-secondary cursor-pointer">
-              Category List
-            </li>
-            <li className="hover:text-secondary cursor-pointer">API Status</li>
+            <li className="hover:text-secondary cursor-pointer">Bookmarks</li>
+            <li className="hover:text-secondary cursor-pointer">Community</li>
+            <li className="hover:text-secondary cursor-pointer">Guidelines</li>
           </ul>
         </div>
 
         {/* Column 4: Newsletter */}
         <div className="bg-zinc-900 p-6 border-2 border-white shadow-[8px_8px_0px_0px_rgba(255,255,255,0.2)]">
           <h3 className="text-lg font-foreground uppercase mb-4">
-            Weekly Drops
+            Weekly Tutorials
           </h3>
+
+          <p className="text-xs text-gray-400 mb-4">
+            Get the best tutorials shared on LearnStack every week.
+          </p>
           <div className="flex flex-col gap-2">
             <input
               type="text"

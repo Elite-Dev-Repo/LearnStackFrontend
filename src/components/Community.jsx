@@ -16,13 +16,13 @@ const STATS = [
     color: "bg-cyan-300",
   },
   {
-    label: "Contributors",
+    label: "Active Contributors",
     value: "4,100",
     icon: UserGroupIcon,
     color: "bg-lime-400",
   },
   {
-    label: "Bookmarks",
+    label: "Bookmarks Saved",
     value: "25,000",
     icon: Book02Icon,
     color: "bg-orange-400",
@@ -32,7 +32,7 @@ const STATS = [
 const RECENT_CONTRIBUTORS = [
   "alex_dev",
   "shad_cn",
-  "brutal_ui",
+  "learnstack_pro",
   "django_master",
   "tailwind_king",
   "supabase_pro",
@@ -40,14 +40,14 @@ const RECENT_CONTRIBUTORS = [
 
 const Community = () => {
   return (
-    <section className="py-16 px-6 font-mono overflow-hidden">
+    <section className="py-16 px-6 font-mono overflow-hidden bg-background text-foreground">
       <div className="max-w-7xl mx-auto">
         {/* Section Title */}
-        <div className="flex items-end gap-4 mb-12">
-          <h2 className="text-6xl font-foreground uppercase tracking-tighter leading-none">
-            Our <br /> Pulse
+        <div className="flex flex-col md:flex-row items-start md:items-end gap-4 mb-12">
+          <h2 className="text-5xl md:text-6xl font-foreground uppercase tracking-tighter leading-none">
+            Community <br /> Pulse
           </h2>
-          <div className="pb-2">
+          <div className="mt-2 md:mt-0">
             <span className="bg-foreground text-white px-3 py-1 text-sm font-bold animate-pulse">
               LIVE DATA
             </span>
@@ -77,10 +77,9 @@ const Community = () => {
         {/* Recent Activity Ticker */}
         <div className="border-4 border-foreground bg-white overflow-hidden py-4 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
           <div className="flex whitespace-nowrap animate-marquee">
-            {/* Doubling the array to create a seamless loop */}
             {[...RECENT_CONTRIBUTORS, ...RECENT_CONTRIBUTORS].map((name, i) => (
               <div key={i} className="flex items-center mx-8 gap-3">
-                <div className="w-8 h-8 bg-secondary border-2 border-foreground shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] flex items-center justify-center">
+                <div className="w-8 h-8 bg-primary border-2 border-foreground shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] flex items-center justify-center">
                   <HugeiconsIcon
                     icon={ChampionIcon}
                     size={16}
@@ -88,7 +87,7 @@ const Community = () => {
                   />
                 </div>
                 <span className="text-xl font-foreground uppercase tracking-tight">
-                  {name} joined the hunt
+                  {name} shared a tutorial
                 </span>
                 <HugeiconsIcon
                   icon={StarIcon}
@@ -102,7 +101,7 @@ const Community = () => {
         </div>
       </div>
 
-      {/* Tailwind Animation Config Required in tailwind.config.js or Global CSS */}
+      {/* Tailwind Animation */}
       <style
         dangerouslySetInnerHTML={{
           __html: `
@@ -111,7 +110,7 @@ const Community = () => {
           100% { transform: translateX(-50%); }
         }
         .animate-marquee {
-          animation: marquee 20s linear infinite;
+          animation: marquee 25s linear infinite;
         }
       `,
         }}

@@ -15,9 +15,9 @@ const App = () => {
       <Nav />
       <Hero />
       <LogoTree />
-      <Trending />
-      <Categories />
       <Howitworks />
+      <Categories />
+
       <Community />
       <Submit />
       <Footer />

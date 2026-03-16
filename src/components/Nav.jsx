@@ -31,7 +31,7 @@ function Nav() {
 
   return (
     <>
-      <nav className="fixed top-0 left-0 z-[100] backdrop-blur-2xl bg-white/20 h-20 w-screen flex items-center justify-between md:justify-around px-6 md:px-15 border-b-2 border-foreground">
+      <nav className="fixed top-0 left-0 z-[100]  backdrop-blur-2xl bg-primary h-20 w-screen flex items-center justify-between md:justify-around px-6 md:px-15 border-b-2 border-foreground">
         {/* Logo */}
         <Link
           to="/"

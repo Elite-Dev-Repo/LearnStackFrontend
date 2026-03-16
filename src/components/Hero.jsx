@@ -27,7 +27,7 @@ function Hero() {
         </div>
 
         {/* Hero Image */}
-        <div className="flex-1 w-full h-full flex items-end justify-center md:justify-end mb-10 md:mb-15 heroimg scale-x-[-1] relative">
+        <div className="flex-1 w-full h-full flex items-end justify-center md:justify-end mb-10 md:mb-15 heroimg  relative">
           <img
             src={herogirl}
             className="w-full max-w-[400px] md:max-w-none object-contain"

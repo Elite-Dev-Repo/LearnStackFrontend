@@ -13,32 +13,32 @@ const LOGO_DATA = [
     name: "LinkedIn",
     icon: <HugeiconsIcon icon={Linkedin02Icon} />,
     color: "bg-primary",
-    link: "https://oyenekanemmanuel.xyz/",
+    link: "https://www.linkedin.com/in/oyenekan-emmanuel-63a43725b/",
   },
   {
-    name: "X-Twitter",
+    name: "Twitter",
     icon: <HugeiconsIcon icon={NewTwitterIcon} />,
-    color: "bg-secondary",
-    link: "https://oyenekanemmanuel.xyz/",
+    color: "bg=foreground",
+    link: "https://x.com/elite_developer",
   },
   {
     name: "Portfolio",
     icon: <HugeiconsIcon icon={AiCloudIcon} />,
-    color: "bg-cyan-300",
+    color: "bg-yellow-300",
     link: "https://oyenekanemmanuel.xyz/",
   },
   {
     name: "Enigma",
     icon: <HugeiconsIcon icon={AiDnaIcon} size={40} />,
     color: "bg-lime-400",
-    link: "https://oyenekanemmanuel.xyz/",
+    link: "https://www.enigma-agent.tech/",
   },
 ];
 
 const LogoTree = () => {
   return (
     <div className="min-h-fit border-y-5 border-foreground p-10 font-mono">
-      <div className="relative flex flex-row justify-center gap-12">
+      <div className="relative flex flex-wrap justify-center gap-12">
         {/* The "Tree Trunk" Line */}
         <div className="absolute left-8 top-0 h-full w-2 bg-foreground" />
 
