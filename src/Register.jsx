@@ -73,7 +73,7 @@ export default function Register() {
             onClick={() => setIsLogin(true)}
             className={`flex-1 py-2 font-foreground uppercase text-sm transition-all ${
               isLogin
-                ? "bg-yellow-300 text-foreground"
+                ? "bg-primary text-foreground"
                 : "text-white hover:bg-zinc-800"
             }`}
           >
@@ -166,7 +166,7 @@ export default function Register() {
               shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]
               active:shadow-none active:translate-x-[6px] active:translate-y-[6px]
               transition-all
-              ${isLogin ? "bg-yellow-300" : "bg-secondary"}
+              ${isLogin ? "bg-primary" : "bg-secondary"}
               ${loading ? "opacity-50 cursor-not-allowed" : "hover:bg-foreground hover:text-white"}
             `}
           >

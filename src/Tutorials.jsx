@@ -11,6 +11,7 @@ import {
   YoutubeIcon,
   Tag01Icon,
   FilterIcon,
+  Loading03Icon, // Imported loading icon
 } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import Footer from "./components/Footer";
@@ -22,6 +23,7 @@ import { Link } from "react-router-dom";
 const Tutorials = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [isSubmitting, setIsSubmitting] = useState(false); // Track submission state
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
 
@@ -90,6 +92,7 @@ const Tutorials = () => {
 
   const handleAddTutorial = async (e) => {
     e.preventDefault();
+    setIsSubmitting(true); // Start loading
     try {
       await api.post("/tutorials/", newTutorial);
       toast.success("Successfully added!");
@@ -98,6 +101,8 @@ const Tutorials = () => {
       fetchData();
     } catch (error) {
       toast.error("Failed to add tutorial. Check the URL.");
+    } finally {
+      setIsSubmitting(false); // Stop loading regardless of outcome
     }
   };
 
@@ -160,73 +165,79 @@ const Tutorials = () => {
 
           {/* Tutorials Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-            {filteredData.map((tutorial) => (
-              <div
-                key={tutorial.id}
-                className="group bg-white border-4 border-foreground shadow-[10px_10px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-2 hover:translate-y-2 transition-all flex flex-col"
-              >
-                {/* Thumbnail Area */}
-                <div className="relative aspect-video border-b-4 border-foreground bg-zinc-200 overflow-hidden">
-                  <img
-                    src={tutorial.thumbnail}
-                    alt={tutorial.title}
-                    className="w-full h-full object-cover transition-all duration-500"
-                  />
-                  <div className="absolute top-4 left-4">
-                    <span
-                      className={`px-3 py-1 border-2 border-foreground bg-white font-foreground uppercase text-xs shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]`}
-                    >
-                      {tutorial.category}
-                    </span>
+            {loading ? (
+              <div className="col-span-full flex flex-col items-center justify-center p-20 gap-4">
+                <HugeiconsIcon
+                  icon={Loading03Icon}
+                  className="animate-spin text-primary"
+                  size={48}
+                />
+                <p className="uppercase font-black">Loading Library...</p>
+              </div>
+            ) : filteredData.length > 0 ? (
+              filteredData.map((tutorial) => (
+                <div
+                  key={tutorial.id}
+                  className="group bg-white border-4 border-foreground shadow-[10px_10px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-2 hover:translate-y-2 transition-all flex flex-col"
+                >
+                  <div className="relative aspect-video border-b-4 border-foreground bg-zinc-200 overflow-hidden">
+                    <img
+                      src={tutorial.thumbnail}
+                      alt={tutorial.title}
+                      className="w-full h-full object-cover transition-all duration-500"
+                    />
+                    <div className="absolute top-4 left-4">
+                      <span
+                        className={`px-3 py-1 border-2 border-foreground bg-white font-foreground uppercase text-xs shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]`}
+                      >
+                        {tutorial.category}
+                      </span>
+                    </div>
                   </div>
-                </div>
 
-                {/* Content Area */}
-                <div className="p-6 flex-1 flex flex-col">
-                  <Link to={tutorial.youtube_url} target="_blank">
-                    <h3 className="text-2xl font-foreground uppercase leading-none mb-3 group-hover:underline decoration-4">
-                      {tutorial.title}
-                    </h3>
-                  </Link>
-                  <p className="text-foreground mb-3 text-md font-medium">
-                    {tutorial.channel_name}
-                  </p>
+                  <div className="p-6 flex-1 flex flex-col">
+                    <Link to={tutorial.youtube_url} target="_blank">
+                      <h3 className="text-2xl font-foreground uppercase leading-none mb-3 group-hover:underline decoration-4">
+                        {tutorial.title}
+                      </h3>
+                    </Link>
+                    <p className="text-foreground mb-3 text-md font-medium">
+                      {tutorial.channel_name}
+                    </p>
 
-                  <div className="mt-auto flex items-center justify-between pt-6 border-t-2 border-foreground border-dashed">
-                    <button className="bg-foreground text-white px-4 py-2 text-[12px] uppercase transition-colors">
-                      {tutorial.keyword}
-                    </button>
-                    <div className="flex gap-4">
-                      <div
-                        onClick={() => likeVideo(tutorial.id)}
-                        className="flex items-center gap-1 font-foreground text-sm cursor-pointer hover:scale-110 transition-transform"
-                      >
-                        <HugeiconsIcon
-                          icon={ThumbsUpIcon}
-                          size={18}
-                          strokeWidth={3}
-                        />
-                        {tutorial.likes_count}
-                      </div>
-                      <div
-                        onClick={() => bookmarkVideo(tutorial.id)}
-                        className="flex items-center gap-1 font-foreground text-sm cursor-pointer hover:scale-110 transition-transform"
-                      >
-                        <HugeiconsIcon
-                          icon={BookmarkIcon}
-                          size={18}
-                          strokeWidth={3}
-                        />
-                        {tutorial.bookmarks_count}
+                    <div className="mt-auto flex items-center justify-between pt-6 border-t-2 border-foreground border-dashed">
+                      <button className="bg-foreground text-white px-4 py-2 text-[12px] uppercase transition-colors">
+                        {tutorial.keyword}
+                      </button>
+                      <div className="flex gap-4">
+                        <div
+                          onClick={() => likeVideo(tutorial.id)}
+                          className="flex items-center gap-1 font-foreground text-sm cursor-pointer hover:scale-110 transition-transform"
+                        >
+                          <HugeiconsIcon
+                            icon={ThumbsUpIcon}
+                            size={18}
+                            strokeWidth={3}
+                          />
+                          {tutorial.likes_count}
+                        </div>
+                        <div
+                          onClick={() => bookmarkVideo(tutorial.id)}
+                          className="flex items-center gap-1 font-foreground text-sm cursor-pointer hover:scale-110 transition-transform"
+                        >
+                          <HugeiconsIcon
+                            icon={BookmarkIcon}
+                            size={18}
+                            strokeWidth={3}
+                          />
+                          {tutorial.bookmarks_count}
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            ))}
-
-            {/* Empty State */}
-            {filteredData.length === 0 && (
+              ))
+            ) : (
               <div className="col-span-full border-4 border-foreground/30 border-dashed p-20 text-center">
                 <h2 className="text-4xl font-foreground uppercase flex flex-col items-center justify-center gap-7 text-zinc-400">
                   <HugeiconsIcon icon={SearchRemoveIcon} size={60} />
@@ -303,6 +314,7 @@ const Tutorials = () => {
               <button
                 onClick={() => setIsModalOpen(false)}
                 className="bg-white border-2 border-foreground p-1 hover:bg-red-400 transition-colors"
+                disabled={isSubmitting} // Disable close during submit
               >
                 <HugeiconsIcon icon={Cancel01Icon} size={24} strokeWidth={3} />
               </button>
@@ -318,13 +330,14 @@ const Tutorials = () => {
                   type="url"
                   placeholder="https://youtube.com/watch?v=..."
                   value={newTutorial.youtube_url}
+                  disabled={isSubmitting}
                   onChange={(e) =>
                     setNewTutorial({
                       ...newTutorial,
                       youtube_url: e.target.value,
                     })
                   }
-                  className="w-full bg-white border-4 border-foreground p-4 font-bold outline-none focus:bg-primary/5 transition-colors"
+                  className="w-full bg-white border-4 border-foreground p-4 font-bold outline-none focus:bg-primary/5 transition-colors disabled:opacity-50"
                 />
               </div>
 
@@ -335,13 +348,14 @@ const Tutorials = () => {
                   </label>
                   <select
                     value={newTutorial.category}
+                    disabled={isSubmitting}
                     onChange={(e) =>
                       setNewTutorial({
                         ...newTutorial,
                         category: e.target.value,
                       })
                     }
-                    className="w-full bg-white border-4 border-foreground p-4 font-bold outline-none appearance-none cursor-pointer"
+                    className="w-full bg-white border-4 border-foreground p-4 font-bold outline-none appearance-none cursor-pointer disabled:opacity-50"
                   >
                     {categories.map((cat) => (
                       <option key={cat} value={cat}>
@@ -360,22 +374,35 @@ const Tutorials = () => {
                     type="text"
                     placeholder="e.g. Django"
                     value={newTutorial.keyword}
+                    disabled={isSubmitting}
                     onChange={(e) =>
                       setNewTutorial({
                         ...newTutorial,
                         keyword: e.target.value,
                       })
                     }
-                    className="w-full bg-white border-4 border-foreground p-4 font-bold outline-none focus:bg-primary/5"
+                    className="w-full bg-white border-4 border-foreground p-4 font-bold outline-none focus:bg-primary/5 disabled:opacity-50"
                   />
                 </div>
               </div>
 
               <button
                 type="submit"
-                className="w-full bg-foreground text-white py-5 text-2xl font-black uppercase shadow-[8px_8px_0px_0px_rgba(0,255,149,0.5)] hover:shadow-none hover:translate-x-1 hover:translate-y-1 transition-all mt-4"
+                disabled={isSubmitting}
+                className="w-full bg-foreground text-white py-5 text-2xl font-black uppercase shadow-[8px_8px_0px_0px_rgba(0,255,149,0.5)] hover:shadow-none hover:translate-x-1 hover:translate-y-1 transition-all mt-4 flex items-center justify-center gap-3 disabled:bg-zinc-600 disabled:shadow-none disabled:translate-x-0 disabled:translate-y-0"
               >
-                Add to Library ★
+                {isSubmitting ? (
+                  <>
+                    <HugeiconsIcon
+                      icon={Loading03Icon}
+                      className="animate-spin"
+                      size={28}
+                    />
+                    Processing...
+                  </>
+                ) : (
+                  "Add to Library ★"
+                )}
               </button>
             </form>
           </div>

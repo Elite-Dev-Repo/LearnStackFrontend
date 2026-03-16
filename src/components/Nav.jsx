@@ -15,8 +15,8 @@ function Nav() {
 
   const links = [
     { name: "Home", href: "/" },
-    { name: "Trending", href: "/#trending" },
-    { name: "FAQ", href: "/#faq" },
+    { name: "Categories", href: "/#categories" },
+    { name: "FAQ", href: "/#faqs" },
     { name: "Tutorials", href: "/tutorials" },
   ];
 

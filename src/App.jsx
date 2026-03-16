@@ -8,6 +8,7 @@ import Submit from "./components/Submit";
 import Howitworks from "./components/Howitworks";
 import Categories from "./components/Categories";
 import Community from "./components/Community";
+import Faqs from "./components/Faqs";
 
 const App = () => {
   return (
@@ -17,8 +18,8 @@ const App = () => {
       <LogoTree />
       <Howitworks />
       <Categories />
-
       <Community />
+      <Faqs />
       <Submit />
       <Footer />
     </>

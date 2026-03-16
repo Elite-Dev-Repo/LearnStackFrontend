@@ -137,7 +137,8 @@ const Footer = () => {
           <div className="flex flex-col gap-2">
             <input
               type="text"
-              placeholder="EMAIL@DOMAIN.COM"
+              disabled
+              placeholder="EMAIL@DOMAIN.COM - COMING SOON"
               className="bg-foreground border-2 border-white p-2 text-xs font-bold focus:outline-none focus:border-primary"
             />
             <button className="bg-primary text-foreground font-foreground py-2 uppercase text-sm border-2 border-white hover:bg-white transition-colors">

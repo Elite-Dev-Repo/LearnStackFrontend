@@ -63,7 +63,7 @@ const CATEGORIES_DATA = [
 
 const Categories = () => {
   return (
-    <section className="p-8 font-mono bg-yellow-300">
+    <section className="p-8 font-mono bg-yellow-300" id="categories">
       <div className="max-w-7xl mx-auto">
         {/* Header Section */}
         <div className="mb-12 border-l-8 border-foreground pl-6">

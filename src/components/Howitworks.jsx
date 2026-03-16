@@ -8,6 +8,7 @@ import {
 } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 
+import { Link } from "react-router-dom";
 const STEPS = [
   {
     id: "01",
@@ -101,10 +102,12 @@ const Howitworks = () => {
 
         {/* Final CTA Sticker */}
         <div className="mt-20 flex justify-center">
-          <button className="group flex items-center gap-3 bg-lime-400 border-4 border-foreground px-10 py-5 text-2xl font-foreground uppercase shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-1 hover:translate-y-1 transition-all">
-            <HugeiconsIcon icon={ZapIcon} size={32} variant="solid" />
-            Start Building
-          </button>
+          <Link to="/tutorials">
+            <button className="group flex items-center gap-3 bg-lime-400 border-4 border-foreground px-10 py-5 text-2xl font-foreground uppercase shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-1 hover:translate-y-1 transition-all">
+              <HugeiconsIcon icon={ZapIcon} size={32} variant="solid" />
+              Start Learning
+            </button>
+          </Link>
         </div>
       </div>
     </section>
