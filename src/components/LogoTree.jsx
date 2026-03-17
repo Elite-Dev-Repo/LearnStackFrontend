@@ -38,7 +38,7 @@ const LOGO_DATA = [
 
 const LogoTree = () => {
   return (
-    <div className="min-h-fit border-y-5 border-foreground p-10 font-mono overflow-hidden">
+    <div className="relative z-10 border-y-5 border-foreground p-10 font-mono bg-background">
       <div className="relative flex flex-col md:flex-row items-start max-w-screen mx-auto gap-5">
         {/* The "Tree Trunk" Line - Animates top to bottom */}
         <motion.div

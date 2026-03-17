@@ -25,13 +25,13 @@ function Hero() {
   };
 
   return (
-    <header className="min-h-screen md:h-screen w-screen overflow-x-hidden relative">
+    <header className="min-h-screen md:h-screen w-full  relative">
       {/* Floating Status Bar */}
       <motion.div
         initial={{ y: -50, opacity: 0 }}
         whileInView={{ y: 0, opacity: 1 }}
         transition={{ delay: 0.5, type: "spring", stiffness: 100 }}
-        className="absolute top-28 left-0 w-full px-6 md:px-15 z-20 pointer-events-none"
+        className="absolute top-10 md:top-18 left-0 w-full px-6 md:px-15 z-20 pointer-events-none"
       >
         <div className="relative w-full flex items-center justify-center">
           <div className="bg-primary/15 border-2 border-black py-2 px-6 shadow-[4px_4px_0px_#000000] rotate-[-1deg]">

@@ -11,7 +11,6 @@ import {
   ArrowRight01Icon,
 } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
-import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 
 const CATEGORIES_DATA = [
@@ -56,20 +55,24 @@ const CATEGORIES_DATA = [
 ];
 
 const Categories = () => {
+  // Parent controls the children's timing
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
-      transition: { staggerChildren: 0.1 },
+      transition: {
+        staggerChildren: 0.08, // Quick, snappy staggered entrance
+        delayChildren: 0.2,
+      },
     },
   };
 
   const itemVariants = {
-    hidden: { opacity: 0, scale: 0.9 },
+    hidden: { opacity: 0, y: 20 },
     visible: {
       opacity: 1,
-      scale: 1,
-      transition: { type: "spring", stiffness: 200, damping: 20 },
+      y: 0,
+      transition: { type: "spring", stiffness: 260, damping: 20 },
     },
   };
 
@@ -80,6 +83,8 @@ const Categories = () => {
         <motion.div
           initial={{ x: -20, opacity: 0 }}
           whileInView={{ x: 0, opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
           className="mb-12 border-l-8 border-foreground pl-6"
         >
           <h2 className="text-5xl font-black uppercase tracking-tighter">
@@ -103,21 +108,21 @@ const Categories = () => {
               key={cat.id}
               variants={itemVariants}
               whileHover={{
-                backgroundColor: "rgba(255, 255, 255, 1)",
+                backgroundColor: "#ffffff",
+                scale: 1.01,
                 zIndex: 10,
-                scale: 1.02,
               }}
               className={`
                 group relative flex flex-col items-start p-8 
                 border-4 border-foreground -ml-[4px] -mt-[4px]
-                transition-all duration-150 bg-white/50
-                active:translate-x-0 active:translate-y-0 active:shadow-none
+                bg-white/80 transition-colors duration-200
+                active:translate-x-0 active:translate-y-0
               `}
             >
               {/* Icon Wrapper */}
               <motion.div
-                whileHover={{ rotate: -5 }}
-                className={`${cat.color} border-2 border-foreground p-2 mb-4 shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] group-hover:shadow-none group-hover:translate-x-1 group-hover:translate-y-1 transition-all`}
+                whileHover={{ rotate: -8, scale: 1.1 }}
+                className={`${cat.color} border-2 border-foreground p-2 mb-4 shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] group-hover:shadow-none transition-all`}
               >
                 <HugeiconsIcon
                   icon={cat.icon}
@@ -137,17 +142,13 @@ const Categories = () => {
                   {cat.count} Articles
                 </span>
 
-                <motion.div
-                  initial={{ x: -10, opacity: 0 }}
-                  whileHover={{ x: 0, opacity: 1 }}
-                  className="group-hover:opacity-100 transition-all"
-                >
+                <div className="opacity-0 group-hover:opacity-100 group-hover:translate-x-0 -translate-x-2 transition-all duration-200">
                   <HugeiconsIcon
                     icon={ArrowRight01Icon}
                     size={24}
                     strokeWidth={3}
                   />
-                </motion.div>
+                </div>
               </div>
             </motion.button>
           ))}

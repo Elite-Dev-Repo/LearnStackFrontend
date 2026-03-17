@@ -61,7 +61,7 @@ const Howitworks = () => {
         variants={containerVariants}
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: true, amount: 0.1 }}
+        viewport={{ amount: 0.1 }}
         className="max-w-5xl mx-auto"
       >
         {/* Header */}
@@ -91,7 +91,7 @@ const Howitworks = () => {
               <motion.div
                 initial={{ scale: 0, opacity: 0 }}
                 whileInView={{ scale: 1, opacity: 0.1 }}
-                transition={{ delay: 0.4, type: "spring" }}
+                transition={{ delay: 0.5, type: "spring" }}
                 className="absolute -top-10 -left-10 text-[10rem] font-black text-transparent stroke-foreground stroke-2 select-none leading-none z-0"
                 style={{ WebkitTextStroke: "2px black" }}
               >
