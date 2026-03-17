@@ -1,5 +1,5 @@
 import React from "react";
-
+import { motion } from "framer-motion";
 import {
   Accordion,
   AccordionItem,
@@ -31,39 +31,73 @@ const Faqs = () => {
     },
   ];
 
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.15,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { type: "spring", stiffness: 100 },
+    },
+  };
+
   return (
     <>
       <section className="min-h-screen pt-32 pb-20 px-6 font-mono" id="faqs">
-        <div className="max-w-3xl mx-auto">
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ amount: 0.2 }}
+          className="max-w-3xl mx-auto"
+        >
           {/* Section Header */}
-          <div className="mb-16">
+          <motion.div variants={itemVariants} className="mb-16">
             <div className="bg-foreground w-fit mx-auto text-white px-4 py-2 mb-4 rotate-[-2deg] shadow-[4px_4px_0px_0px_rgba(255,255,255,1)] border-2 border-foreground">
               <span className="font-foreground uppercase tracking-widest text-sm">
                 Frequently asked Questions
               </span>
             </div>
-          </div>
+          </motion.div>
 
           {/* Accordion Logic */}
           <Accordion type="single" collapsible className="w-full space-y-4">
             {faqs.map((faq, index) => (
-              <AccordionItem
+              <motion.div
                 key={index}
-                value={`item-${index}`}
-                className="border-4 border-foreground bg-white px-6 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]"
+                variants={itemVariants}
+                whileHover={{
+                  y: -4,
+                  boxShadow: "12px 12px 0px 0px rgba(0,0,0,1)",
+                }}
+                className="transition-all duration-200"
               >
-                <AccordionTrigger className="text-xl font-black uppercase text-left hover:no-underline hover:text-primary transition-colors py-6">
-                  {faq.question}
-                </AccordionTrigger>
-                <AccordionContent className="text-lg font-medium pb-6 text-foreground/80 leading-relaxed border-t-2 border-dashed border-foreground pt-4">
-                  {faq.answer}
-                </AccordionContent>
-              </AccordionItem>
+                <AccordionItem
+                  value={`item-${index}`}
+                  className="border-4 border-foreground bg-white px-6 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]"
+                >
+                  <AccordionTrigger className="text-xl font-black uppercase text-left hover:no-underline hover:text-primary transition-colors py-6">
+                    {faq.question}
+                  </AccordionTrigger>
+                  <AccordionContent className="text-lg font-medium pb-6 text-foreground/80 leading-relaxed border-t-2 border-dashed border-foreground pt-4">
+                    {faq.answer}
+                  </AccordionContent>
+                </AccordionItem>
+              </motion.div>
             ))}
           </Accordion>
 
           {/* Contact Support CTA */}
-        </div>
+        </motion.div>
       </section>
     </>
   );

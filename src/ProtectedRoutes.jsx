@@ -64,13 +64,12 @@ function ProtectedRoutes({ children }) {
 
           {/* Text */}
           <p className="text-sm text-foreground/60 tracking-wide">
-            Verifying session...
+            Loading session...
           </p>
         </div>
       </div>
     );
   }
-
   return isAuth ? children : <Navigate to="/register" />;
 }
 

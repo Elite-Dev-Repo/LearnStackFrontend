@@ -1,5 +1,4 @@
 import React from "react";
-// Correct imports based on your structure
 import {
   BrowserIcon,
   DatabaseIcon,
@@ -13,6 +12,7 @@ import {
 } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
 
 const CATEGORIES_DATA = [
   {
@@ -22,13 +22,7 @@ const CATEGORIES_DATA = [
     color: "bg-cyan-300",
     count: 12,
   },
-  {
-    id: 2,
-    name: "Backend",
-    icon: DatabaseIcon,
-    color: "bg-primary",
-    count: 8,
-  },
+  { id: 2, name: "Backend", icon: DatabaseIcon, color: "bg-primary", count: 8 },
   {
     id: 3,
     name: "Design",
@@ -62,60 +56,102 @@ const CATEGORIES_DATA = [
 ];
 
 const Categories = () => {
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { staggerChildren: 0.1 },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, scale: 0.9 },
+    visible: {
+      opacity: 1,
+      scale: 1,
+      transition: { type: "spring", stiffness: 200, damping: 20 },
+    },
+  };
+
   return (
     <section className="p-8 font-mono bg-yellow-300" id="categories">
       <div className="max-w-7xl mx-auto">
         {/* Header Section */}
-        <div className="mb-12 border-l-8 border-foreground pl-6">
-          <h2 className="text-5xl font-foreground uppercase tracking-tighter">
+        <motion.div
+          initial={{ x: -20, opacity: 0 }}
+          whileInView={{ x: 0, opacity: 1 }}
+          className="mb-12 border-l-8 border-foreground pl-6"
+        >
+          <h2 className="text-5xl font-black uppercase tracking-tighter">
             Categories
           </h2>
           <p className="mt-2 font-bold text-gray-600 uppercase text-sm italic">
             Category of the available categories
           </p>
-        </div>
+        </motion.div>
 
-        {/* Grid: 1 col mobile, 2 cols tablet, 4 cols desktop */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 border-5 border-foreground">
+        {/* Grid Container */}
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.1 }}
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 border-b-4 lg:border-b-0"
+        >
           {CATEGORIES_DATA.map((cat) => (
-            <button
+            <motion.button
               key={cat.id}
+              variants={itemVariants}
+              whileHover={{
+                backgroundColor: "rgba(255, 255, 255, 1)",
+                zIndex: 10,
+                scale: 1.02,
+              }}
               className={`
                 group relative flex flex-col items-start p-8 
-                border-4 border-foreground 
-                transition-all duration-150 
+                border-4 border-foreground -ml-[4px] -mt-[4px]
+                transition-all duration-150 bg-white/50
                 active:translate-x-0 active:translate-y-0 active:shadow-none
               `}
             >
-              {/* Icon using the HugeiconsIcon Wrapper */}
-              <div className="bg-white border-2 border-foreground p-2 mb-4 shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] group-hover:bg-foreground group-hover:text-white transition-colors">
+              {/* Icon Wrapper */}
+              <motion.div
+                whileHover={{ rotate: -5 }}
+                className={`${cat.color} border-2 border-foreground p-2 mb-4 shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] group-hover:shadow-none group-hover:translate-x-1 group-hover:translate-y-1 transition-all`}
+              >
                 <HugeiconsIcon
                   icon={cat.icon}
                   size={32}
                   strokeWidth={2.5}
                   variant="rounded"
                 />
-              </div>
+              </motion.div>
+
               {/* Text Content */}
-              <h3 className="text-2xl font-foreground uppercase leading-none">
+              <h3 className="text-2xl font-black uppercase leading-none">
                 {cat.name}
               </h3>
+
               <div className="mt-4 flex w-full justify-between items-center">
-                <span className="text-xs font-foreground uppercase bg-foreground text-white px-2 py-0.5">
+                <span className="text-xs font-black uppercase bg-foreground text-white px-2 py-0.5">
                   {cat.count} Articles
                 </span>
 
-                <div className="opacity-0 group-hover:opacity-100 transition-all transform translate-x-2 group-hover:translate-x-0">
+                <motion.div
+                  initial={{ x: -10, opacity: 0 }}
+                  whileHover={{ x: 0, opacity: 1 }}
+                  className="group-hover:opacity-100 transition-all"
+                >
                   <HugeiconsIcon
                     icon={ArrowRight01Icon}
                     size={24}
                     strokeWidth={3}
                   />
-                </div>
+                </motion.div>
               </div>
-            </button>
+            </motion.button>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );
