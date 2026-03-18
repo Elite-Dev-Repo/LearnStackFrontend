@@ -31,7 +31,7 @@ function Hero() {
         initial={{ y: -50, opacity: 0 }}
         whileInView={{ y: 0, opacity: 1 }}
         transition={{ delay: 0.5, type: "spring", stiffness: 100 }}
-        className="absolute top-10 md:top-18 left-0 w-full px-6 md:px-15 z-20 pointer-events-none"
+        className="absolute top-10 md:top-10 left-0 w-full px-6 md:px-15 z-20 pointer-events-none"
       >
         <div className="relative w-full flex items-center justify-center">
           <div className="bg-primary/15 border-2 border-black py-2 px-6 shadow-[4px_4px_0px_#000000] rotate-[-1deg]">
@@ -50,7 +50,7 @@ function Hero() {
         variants={containerVariants}
         initial="hidden"
         whileInView="visible"
-        className="cont w-full h-full mt-19 flex flex-col md:flex-row items-center justify-between relative px-6 md:px-15 pt-24 md:pt-0"
+        className="cont w-full h-full  mt-24 flex flex-col md:flex-row items-center justify-between relative px-6 md:px-15 pt-24 md:pt-0"
       >
         {/* Text Content */}
         <div className="flex-1 w-full h-full mb-10 md:mb-25 flex flex-col items-start justify-center md:justify-end gap-5 z-10">
